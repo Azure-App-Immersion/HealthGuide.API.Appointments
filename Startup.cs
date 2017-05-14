@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using HealthGuide.API.Appointments.Data;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +24,8 @@ namespace HealthGuide.API.Appointments
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<AppointmentsContext>();
+            services.AddCors();
             services.AddMvc()
                .AddJsonOptions(options =>
                {
@@ -34,7 +37,14 @@ namespace HealthGuide.API.Appointments
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            
+            app.UseCors(options => {
+                options
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
             app.UseMvcWithDefaultRoute();
             app.UseStaticFiles();
         }
