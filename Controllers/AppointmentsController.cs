@@ -19,15 +19,29 @@ namespace HealthGuide.API.Appointments.Controllers
         }
 
         [HttpGet("{id}", Name = "GetAppointment")]
-        public async Task<Appointment> Get(string id)
+        public async Task<IActionResult> Get(string id)
         {
-            return await _appointmentsContext.GetAppointmentAsync(id);
+            var appointment = await _appointmentsContext.GetAppointmentAsync(id);
+            if (appointment == null) {
+                return NotFound();
+            }
+            return Ok(appointment);
         }
 
         [HttpGet("date/{date}", Name = "GetAppointmentsForDate")]
         public async Task<IEnumerable<Appointment>> Get(DateTimeOffset date)
         {
             return await _appointmentsContext.GetAppointmentsForDateAsync(date);
+        }
+
+        [HttpGet("name/{firstName}/{lastName}", Name = "GetAppointmentForFirstNameLastName")]
+        public async Task<IActionResult> Get(string firstName, string lastName)
+        {
+            var appointment = await _appointmentsContext.GetAppointmentForNameAsync(firstName, lastName);
+            if (appointment == null) {
+                return NotFound();
+            }
+            return Ok(appointment);
         }
 
         [HttpPost]
@@ -40,7 +54,7 @@ namespace HealthGuide.API.Appointments.Controllers
 
             await _appointmentsContext.CreateAppointmentAsync(appointment);
 
-            return CreatedAtRoute("GetAppointment", new { id = 0 }, appointment);
+            return CreatedAtRoute("GetAppointment", new { id = appointment.Id }, appointment);
         }
     }
 }

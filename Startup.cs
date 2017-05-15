@@ -26,11 +26,7 @@ namespace HealthGuide.API.Appointments
         {
             services.AddTransient<AppointmentsContext>();
             services.AddCors();
-            services.AddMvc()
-               .AddJsonOptions(options =>
-               {
-                   options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-               });
+            services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

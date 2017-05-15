@@ -38,6 +38,24 @@ namespace HealthGuide.API.Appointments.Data
             return (Appointment)(dynamic)document;
         }
 
+        public async Task<Appointment> GetAppointmentForNameAsync(string firstName, string lastName)
+        {
+            IDocumentQuery<Appointment> query = _client.CreateDocumentQuery<Appointment>(
+                UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId),
+                new FeedOptions { MaxItemCount = 1 }
+            ).Where(document => 
+                document.Patient.FirstName.ToLower() == firstName.ToLower() 
+            ).Where(document =>
+                document.Patient.LastName.ToLower() == lastName.ToLower()
+            ).AsDocumentQuery();
+            List<Appointment> results = new List<Appointment>();
+            while (query.HasMoreResults)
+            {
+                results.AddRange(await query.ExecuteNextAsync<Appointment>());
+            }
+            return results.SingleOrDefault();
+        }
+
         public async Task<IEnumerable<Appointment>> GetAppointmentsForDateAsync(DateTimeOffset date)
         {
             DateTimeOffset beginDate = date.Date;
