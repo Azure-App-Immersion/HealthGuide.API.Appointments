@@ -52,7 +52,7 @@ namespace HealthGuide.API.Appointments.Controllers
                 return BadRequest();
             }
 
-            await _appointmentsContext.CreateAppointmentAsync(appointment);
+            appointment = await _appointmentsContext.CreateAppointmentAsync(appointment);
 
             return CreatedAtRoute("GetAppointment", new { id = appointment.Id }, appointment);
         }
