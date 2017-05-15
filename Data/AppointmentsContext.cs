@@ -44,9 +44,9 @@ namespace HealthGuide.API.Appointments.Data
                 UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId),
                 new FeedOptions { MaxItemCount = 1 }
             ).Where(document => 
-                document.Patient.FirstName.ToLower() == firstName.ToLower() 
+                document.patient.firstName.ToLower() == firstName.ToLower() 
             ).Where(document =>
-                document.Patient.LastName.ToLower() == lastName.ToLower()
+                document.patient.lastName.ToLower() == lastName.ToLower()
             ).AsDocumentQuery();
             List<Appointment> results = new List<Appointment>();
             while (query.HasMoreResults)
@@ -64,7 +64,7 @@ namespace HealthGuide.API.Appointments.Data
                 UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId),
                 new FeedOptions { MaxItemCount = -1 }
             ).Where(document => 
-                document.Slot < endDate && document.Slot > beginDate
+                document.slot < endDate && document.slot > beginDate
             ).AsDocumentQuery();
             List<Appointment> results = new List<Appointment>();
             while (query.HasMoreResults)

@@ -54,7 +54,7 @@ namespace HealthGuide.API.Appointments.Controllers
 
             appointment = await _appointmentsContext.CreateAppointmentAsync(appointment);
 
-            return CreatedAtRoute("GetAppointment", new { id = appointment.Id }, appointment);
+            return CreatedAtRoute("GetAppointment", new { id = appointment.id }, appointment);
         }
     }
 }
