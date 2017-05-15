@@ -11,22 +11,22 @@ namespace HealthGuide.API.Appointments.Data
 {
     public class AppointmentsContext
     {
-        private static readonly string Endpoint = "https://azurerev-db-nosql.documents.azure.com:443/";
-        private static readonly string Key = "jwPUW0K73wBSKZLBMP0ofnOgyS6bzxzvD5LgMKNiPAaapV6JZ5ulJJm1ScHNol9VjJRlxIAQ8Xc5PwdDsyttQg==";
-        private static readonly string DatabaseId = "HealthGuide";
-        private static readonly string CollectionId = "Appointments";
+        private const string DOCUMENTDB_ENDPOINT = "";
+        private const string DOCUMENTDB_KEY = "";
+        private const string DATABASE_ID = "";
+        private const string COLLECTION_ID = "";
 
         private DocumentClient _client;
 
         public AppointmentsContext()
         {
-            _client = new DocumentClient(new Uri(Endpoint), Key);            
+            _client = new DocumentClient(new Uri(DOCUMENTDB_ENDPOINT), DOCUMENTDB_KEY);            
         }
 
         public async Task<Appointment> CreateAppointmentAsync(Appointment appointment)
         {
             Document document = await _client.CreateDocumentAsync(
-                UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId),
+                UriFactory.CreateDocumentCollectionUri(DATABASE_ID, COLLECTION_ID),
                 appointment
             );
             return (Appointment)(dynamic)document;
@@ -34,14 +34,14 @@ namespace HealthGuide.API.Appointments.Data
 
         public async Task<Appointment> GetAppointmentAsync(string id)
         {
-            Document document = await _client.ReadDocumentAsync(UriFactory.CreateDocumentUri(DatabaseId, CollectionId, id));
+            Document document = await _client.ReadDocumentAsync(UriFactory.CreateDocumentUri(DATABASE_ID, COLLECTION_ID, id));
             return (Appointment)(dynamic)document;
         }
 
         public async Task<Appointment> GetAppointmentForNameAsync(string firstName, string lastName)
         {
             IDocumentQuery<Appointment> query = _client.CreateDocumentQuery<Appointment>(
-                UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId),
+                UriFactory.CreateDocumentCollectionUri(DATABASE_ID, COLLECTION_ID),
                 new FeedOptions { MaxItemCount = 1 }
             ).Where(document => 
                 document.patient.firstName.ToLower() == firstName.ToLower() 
@@ -61,7 +61,7 @@ namespace HealthGuide.API.Appointments.Data
             DateTimeOffset beginDate = date.Date;
             DateTimeOffset endDate = date.Date.AddDays(1);
             IDocumentQuery<Appointment> query = _client.CreateDocumentQuery<Appointment>(
-                UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId),
+                UriFactory.CreateDocumentCollectionUri(DATABASE_ID, COLLECTION_ID),
                 new FeedOptions { MaxItemCount = -1 }
             ).Where(document => 
                 document.slot < endDate && document.slot > beginDate
