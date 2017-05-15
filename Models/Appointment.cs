@@ -4,20 +4,20 @@ namespace HealthGuide.API.Appointments.Models
 {
     public class Appointment
     {        
-        public string Id { get; set; }
+        public string id { get; set; }
                 
-        public Patient Patient { get; set; }
+        public Patient patient { get; set; }
 
-        public Visit Visit { get; set; }
+        public Visit visit { get; set; }
 
-        public DateTime Slot { get; set; }
+        public DateTime slot { get; set; }
 
-        public Doctor Doctor { get; set; }      
+        public Doctor doctor { get; set; }      
 
-        public Location Location { get; set; }        
+        public Location location { get; set; }        
         
-        public bool CheckedIn { get; set; }
+        public bool checkedIn { get; set; }
 
-        public bool Completed { get; set; }
+        public bool completed { get; set; }
     }
 }

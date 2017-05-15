@@ -2,12 +2,12 @@ namespace HealthGuide.API.Appointments.Models
 {
     public class Patient
     {
-        public string FirstName { get; set; }
+        public string firstName { get; set; }
 
-        public string LastName { get; set; }
+        public string lastName { get; set; }
 
-        public string EmailAddress { get; set; }
+        public string emailAddress { get; set; }
 
-        public string PhoneNumber { get; set; }
+        public string phoneNumber { get; set; }
     }
 }
