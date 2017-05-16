@@ -15,7 +15,6 @@ namespace HealthGuide.API.Appointments
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -27,6 +26,7 @@ namespace HealthGuide.API.Appointments
             services.AddTransient<AppointmentsContext>();
             services.AddCors();
             services.AddMvc();
+            services.Configure<Settings>(Configuration);
             services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("1.0.0", new Info { Title = "HealthGuide Appointments API", Version = "1.0.0" });
