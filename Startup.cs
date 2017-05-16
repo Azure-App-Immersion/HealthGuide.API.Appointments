@@ -23,10 +23,10 @@ namespace HealthGuide.API.Appointments
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<Settings>(Configuration);
             services.AddTransient<AppointmentsContext>();
             services.AddCors();
             services.AddMvc();
-            services.Configure<Settings>(Configuration);
             services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("1.0.0", new Info { Title = "HealthGuide Appointments API", Version = "1.0.0" });
